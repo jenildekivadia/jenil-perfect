@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>JenilDekivadia</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-family:Arial;
+overflow:hidden;
+
+background: linear-gradient(270deg,#6a0dad,#8a2be2,#4b0082,#6a0dad);
+background-size:600% 600%;
+animation:bgmove 12s infinite alternate;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%;}
+100%{background-position:100% 50%;}
+}
+
+h1{
+color:orange;
+font-size:70px;
+text-shadow:0 0 10px orange,0 0 20px orange,0 0 40px orange;
+animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{ text-shadow:0 0 10px orange;}
+to{ text-shadow:0 0 30px orange,0 0 50px orange;}
+}
+
+img{
+width:230px;
+border-radius:50%;
+margin-top:20px;
+border:6px solid white;
+box-shadow:0 0 40px purple;
+transition:transform 0.4s;
+}
+
+img:hover{
+transform:scale(1.1);
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Jenil</h1>
+
+<img src="jenil.png">
+
+<canvas id="particles"></canvas>
+
+<script>
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+d:Math.random()*1
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="white";
+ctx.beginPath();
+
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+}
+
+ctx.fill();
+update();
+}
+
+function update(){
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+p.y+=p.d;
+
+if(p.y>canvas.height){
+particles[i]={x:Math.random()*canvas.width,y:0,r:p.r,d:p.d};
+}
+}
+}
+
+setInterval(draw,33);
+
+</script>
+
+</body>
+</html>
